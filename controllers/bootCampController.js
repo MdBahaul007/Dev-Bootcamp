@@ -10,7 +10,6 @@ export const getBootcamp = async (req, res, next) => {
       data: bootcampData,
       message: "Success",
     });
-    console.log(bootcampData);
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -23,7 +22,6 @@ export const getBootcamp = async (req, res, next) => {
 export const getBootcampById = async (req, res, next) => {
   try {
     const bootCampData = await Bootcamp.findById(req.params.id);
-    console.log("bootCampData", bootCampData);
     if (!bootCampData) {
       return res.status(400).json({
         success: false,
@@ -46,16 +44,13 @@ export const getBootcampById = async (req, res, next) => {
 };
 
 export const createBootcamp = async (req, res, next) => {
-  console.log(req.body);
   try {
     const data = await Bootcamp.create(req.body);
-    console.log(data);
     res.status(201).json({
       success: true,
       data: req.body,
     });
   } catch (error) {
-    console.log("error", error);
     res.status(400).json({
       success: false,
       error: "Something went wrong",
