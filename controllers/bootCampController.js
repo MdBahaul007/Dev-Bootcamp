@@ -1,5 +1,5 @@
-import { json } from "express";
 import Bootcamp from "../model/bootcamp.js";
+import ErrorResponse from "../utils/errorResponse.js";
 
 export const getBootcamp = async (req, res, next) => {
   try {
@@ -11,11 +11,13 @@ export const getBootcamp = async (req, res, next) => {
       message: "Success",
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      data: [],
-      message: "Error fetching bootcamp data",
-    });
+    // adding the error handler middleware so that error goes to it instead of handling it here so we need to call next()
+    next(new ErrorResponse(`Failed to get bootcamps`), 500);
+    // res.status(400).json({
+    //   success: false,
+    //   data: [],
+    //   message: "Error fetching bootcamp data",
+    // });
   }
 };
 
@@ -35,11 +37,7 @@ export const getBootcampById = async (req, res, next) => {
       message: "Success",
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      data: [],
-      message: "Error fetching bootcamp data",
-    });
+    next(new ErrorResponse(`No bootcamp exist with id ${req.params.id}`), 404);
   }
 };
 
@@ -51,10 +49,8 @@ export const createBootcamp = async (req, res, next) => {
       data: req.body,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      error: "Something went wrong",
-    });
+    // next(error);
+    next(new ErrorResponse(`Failed to create bootcamp`), 500);
   }
 };
 
@@ -79,10 +75,7 @@ export const updateBootcamp = async (req, res, next) => {
       data: updateData,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      error: "Something went wrong",
-    });
+    next(new ErrorResponse(`No bootcamp exist with id ${req.params.id}`), 404);
   }
 };
 
@@ -100,9 +93,6 @@ export const deleteBootcamp = async (req, res, next) => {
       data: {},
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      error: "Something went wrong",
-    });
+    next(new ErrorResponse(`No bootcamp exist with id ${req.params.id}`), 404);
   }
 };

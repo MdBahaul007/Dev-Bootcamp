@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import router from "./routes/routes.js";
 import dbConnection from "./config/db.js";
+import errorHandler from "./middleware/errorHandler.js";
 
 dotenv.config({ path: path.resolve("./config/config.env") });
 
@@ -17,6 +18,8 @@ app.use(express.json());
 
 //Mounting routers - more scalable approach
 app.use("/api/v1/bootcamp", router);
+
+app.use(errorHandler);
 
 const server = app.listen(PORT, () => {
   console.log(
