@@ -6,6 +6,7 @@ import {
   getBootcampById,
   updateBootcamp,
 } from "../controllers/bootCampController.js";
+import { asyncHandler } from "../middleware/asyncHandler.js";
 
 const router = express.Router();
 
@@ -16,11 +17,15 @@ const router = express.Router();
 // router.delete("/:id", deleteBootcamp);
 //or
 
-router.route("/").get(getBootcamp).post(createBootcamp);
+//added the async handler so that we dont have to write the try-catch in controller
+router
+  .route("/")
+  .get(asyncHandler(getBootcamp))
+  .post(asyncHandler(createBootcamp));
 router
   .route("/:id")
-  .get(getBootcampById)
-  .put(updateBootcamp)
-  .delete(deleteBootcamp);
+  .get(asyncHandler(getBootcampById))
+  .put(asyncHandler(updateBootcamp))
+  .delete(asyncHandler(deleteBootcamp));
 
 export default router;
