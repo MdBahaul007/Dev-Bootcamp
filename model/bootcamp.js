@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+import geocoder from "../utils/geocoder.js";
 
 const Bootcamp = new mongoose.Schema({
   name: {
@@ -114,4 +115,11 @@ Bootcamp.pre("save", function (next) {
 //   console.log("out", out);
 //   next();
 // });
+
+Bootcamp.pre("save", async function (next) {
+  console.log("imnnnnnnn");
+
+  const location = await geocoder.geocode(this.address);
+  console.log("location", location);
+});
 export default mongoose.model("Bootcamp", Bootcamp);
