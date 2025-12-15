@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const Bootcamp = new mongoose.Schema({
   name: {
@@ -98,4 +99,19 @@ const Bootcamp = new mongoose.Schema({
   },
 });
 
+// creating a slug which is in our modal from the name before adding the data in mongo db --- slug ex name is Mohd Bahaul slug will make as mohd-bahaul
+// pre post are hooks or the mongo db middleware
+Bootcamp.pre("save", function (next) {
+  console.log(this.name);
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+// so I will run the the api for ex get-all-bootcamp below function will bring the record which has name AI Innovators Academyy
+// Bootcamp.pre("find", function (next) {
+//   console.log("innnnnnnnn");
+//   const out = this.where({ name: "AI Innovators Academyy" });
+//   console.log("out", out);
+//   next();
+// });
 export default mongoose.model("Bootcamp", Bootcamp);

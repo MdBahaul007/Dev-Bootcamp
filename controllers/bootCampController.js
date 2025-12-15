@@ -8,7 +8,6 @@ export const getBootcamp = async (req, res, next) => {
       success: true,
       count: bootcampData?.length,
       data: bootcampData,
-      message: "Success",
     });
   } catch (error) {
     next(error);
@@ -37,7 +36,7 @@ export const createBootcamp = async (req, res, next) => {
   const data = await Bootcamp.create(req.body);
   res.status(201).json({
     success: true,
-    data: req.body,
+    data: data,
   });
 
   next(error);
