@@ -117,9 +117,17 @@ Bootcamp.pre("save", function (next) {
 // });
 
 Bootcamp.pre("save", async function (next) {
-  console.log("imnnnnnnn");
-
   const location = await geocoder.geocode(this.address);
-  console.log("location", location);
+  this.location = {
+    type: "point",
+    coordinates: [location[0].latitude, location[0].longitude],
+    formattedAddress: location[0].formattedAddress,
+    street: location[0].streetName,
+    city: location[0].city,
+    state: location[0].state,
+    zipcode: location[0].zipcode,
+    country: location[0].countryCode,
+  };
+  next();
 });
 export default mongoose.model("Bootcamp", Bootcamp);

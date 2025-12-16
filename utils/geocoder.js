@@ -17,7 +17,6 @@ const options = {
   formatter: null,
 };
 
-console.log("optionsss", options);
 const geocoder = node_geocoder(options);
 
 export default geocoder;
